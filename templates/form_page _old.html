@@ -1,0 +1,19 @@
+<html>
+<body>
+
+<form action="/form/" method="POST">
+	{% csrf_token %}
+	<p>Name<input type="text" name="name" value=""></p>
+	<p>Age<input type="number" name="age" value""></p>
+	<input type="submit" value="Add">
+</form>
+
+<p> Persons:</p>
+<ul>
+	{% for p in persons %}
+	<li><p>id={{p.id}} name={{p.name}} age={{p.age}}<p></li>
+	{% endfor %}
+</ul>
+</body>
+</html>
+

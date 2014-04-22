@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<p class="text-center"> Contact us by tel. 1232342</p>
+</div>
+
+<div class="container">
+	<div align="center">
+		<button id="btn" type="button" class="btn btn-primary">Press me</button>
+	</div>
+</div>
+
+<div id="btn_dialog" title="Btn title" style="display:none">
+	<p> Hello from button!</p>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+
+$("#btn").click(function () {
+		$("#btn_dialog").dialog({
+			modal : true,
+			buttons : {
+				Ok : function() {
+					console.log("ok pressed");
+					$(this).dialog("close");
+				}
+			}
+			});		
+});
+
+$(document).ready(function() {
+	console.log("ready!");
+});
+</script>
+
+{% endblock %}
+
+

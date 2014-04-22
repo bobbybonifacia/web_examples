@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+	<form class="form-horizontal" role="form" id = "myform">
+		{% csrf_token %}
+		<div class="form-group">
+    		<label for="exampleInputName">Name</label>
+    		<input type="text" name = "name" class="form-control" id="name" placeholder="Enter your name">
+  		</div>
+ 		 <div class="form-group">
+ 		   <label for="exampleInputAge">Age</label>
+ 		   <input type="number" name = "age" class="form-control" id="age" placeholder="Enter your age">
+ 		 </div>
+  		
+
+  		<button id="btn" type="button" class="btn btn-primary">Submit</button>
+	</form>
+	<br><b>Already with us:</b>
+	<table class="table table-condensed">
+	<tr> <td><b>id</b></td> <td><b>name</b></td> <td><b>age</b></td></tr>
+	{% for p in persons %}
+	
+	<tr> <td>{{p.id}}</td> <td>{{p.name}}</td> <td>{{p.age}}</td></tr>
+	{% endfor %}
+	</table>
+</div>
+
+<div id="btn_dialog" title="Warning" style="display:none">
+	{% csrf_token %}	
+	
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+
+$("#btn").click(function () {
+	$("#btn_dialog").text("Are you sure adding person "+  $("#name").val() + " with age " + $("#age").val() + "?");
+	
+	
+	
+	console.log(name);
+		$("#btn_dialog").dialog({
+			modal : true,
+			buttons : {
+				Yes : function() {
+					console.log("Yes pressed");
+					
+					var formvalues = $("#myform").serialize();
+						
+
+					$.post('/form/', formvalues,function() {
+					window.location.reload();					
+					}, "html");
+					
+					$(this).dialog("close");
+				},
+				No : function() {
+					console.log("No pressed");				$(this).dialog("close");
+					
+				}
+					
+			
+			
+			}
+			});		
+});
+
+
+$(document).ready(function() {
+	console.log("ready!");
+});
+</script>
+
+{% endblock %}
+
+
+
+
+
+
+<html>
+<body>
+
+<form action="/form/" method="POST">
+	{% csrf_token %}
+	<p>Name<input type="text" name="name" value=""></p>
+	<p>Age<input type="number" name="age" value""></p>
+	<input type="submit" value="Add">
+</form>
+
+<p> Persons:</p>
+<ul>
+	{% for p in persons %}
+	<li><p>id={{p.id}} name={{p.name}} age={{p.age}}<p></li>
+	{% endfor %}
+</ul>
+</body>
+</html>
+
